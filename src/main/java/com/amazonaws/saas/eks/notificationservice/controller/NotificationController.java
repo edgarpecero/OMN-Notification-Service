@@ -36,7 +36,7 @@ public class NotificationController {
     }
 
     @PostMapping("/subscribe")
-    public void subscribePhoneNumber(@RequestBody SubscribeToTopicRequest request) {
+    public void subscribeToTopic(@RequestBody SubscribeToTopicRequest request) {
         try {
             notificationService.subscribeToTopic(request);
         } catch (Exception e) {
