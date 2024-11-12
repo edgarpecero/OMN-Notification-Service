@@ -29,4 +29,12 @@ public class SESController {
         sesService.sendEmail(to, subject, body);
         return "Email sent to " + to;
     }
+
+    /**
+     * Heartbeat method to check if ses notification service is up and running
+     *
+     */
+    @RequestMapping("notifications/ses/health")
+    public String health() {
+        return "\"SES notification service is up!\"";
 }
