@@ -37,4 +37,5 @@ public class SESController {
     @RequestMapping("/health")
     public String health() {
         return "\"SES notification service is up!\"";
+    }
 }
