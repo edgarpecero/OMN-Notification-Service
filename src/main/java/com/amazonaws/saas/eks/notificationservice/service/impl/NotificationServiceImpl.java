@@ -1,8 +1,6 @@
 package com.amazonaws.saas.eks.notificationservice.service.impl;
 
 import com.amazonaws.saas.eks.notificationservice.config.SNSConfig;
-import com.amazonaws.saas.eks.notificationservice.domain.dto.request.NotificationRequest;
-import com.amazonaws.saas.eks.notificationservice.domain.dto.request.SubscribeToTopicRequest;
 import com.amazonaws.saas.eks.notificationservice.domain.model.enums.SubscriptionProtocol;
 import com.amazonaws.saas.eks.notificationservice.service.NotificationService;
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.*;
 
-import java.util.Map;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -48,18 +45,13 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     // Publishes a notification message to an SNS topic.
-    public void publishNotification(NotificationRequest request) {
+    public void publishNotification(String message, String subject) {
         try {
             // Build the request to publish the notification to the topic.
             PublishRequest publishRequest = PublishRequest.builder()
-                    .message(request.getMessage()) // Set the message content.
-                    .subject(request.getSubject()) // Set the subject of the message.
+                    .message(message) // Set the message content.
+                    .subject(subject) // Set the subject of the message.
                     .topicArn(snsEmailTopicARN) // Specify the topic ARN.
-                    .messageAttributes(Map.of(
-                            request.getProtocol(), MessageAttributeValue.builder()
-                                    .dataType("String")
-                                    .stringValue(request.getEmail()) // Attach email as message attribute
-                                    .build()))
                     .build();
 
             // Send the publish request to AWS SNS and get the response.
@@ -75,16 +67,16 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void subscribeToTopic(SubscribeToTopicRequest request) {
+    public void subscribeToTopic(String email) {
         try {
             // Determine protocol based on request (email or SMS).
-            String protocol = (request.getEmail() != null) ? SubscriptionProtocol.EMAIL.getLabel() : SubscriptionProtocol.SMS.getLabel();
-            String endpoint = (request.getEmail() != null) ? request.getEmail() : request.getPhoneNumber();
+//            String protocol = (request.getEmail() != null) ? SubscriptionProtocol.EMAIL.getLabel() : SubscriptionProtocol.SMS.getLabel();
+//            String endpoint = (request.getEmail() != null) ? request.getEmail() : request.getPhoneNumber();
 
             // TODO: Set topicArn dynamically if needed.
             SubscribeRequest subscribeRequest = SubscribeRequest.builder()
-                    .protocol(protocol)
-                    .endpoint(endpoint)
+                    .protocol(SubscriptionProtocol.EMAIL.getLabel())
+                    .endpoint(email)
                     .topicArn(snsEmailTopicARN)
                     .build();
 

@@ -26,9 +26,9 @@ public class NotificationController {
     }
 
     @PostMapping("/publish")
-    public void publishNotification(@RequestBody NotificationRequest request) {
+    public void publishNotification(@RequestBody String message, String subject) {
         try {
-            notificationService.publishNotification(request);
+            notificationService.publishNotification(message, subject);
         } catch (Exception e) {
             LOGGER.error("Error publishing new notification.", e);
             throw e;
@@ -36,9 +36,9 @@ public class NotificationController {
     }
 
     @PostMapping("/subscribe")
-    public void subscribeToTopic(@RequestBody SubscribeToTopicRequest request) {
+    public void subscribeToTopic(@RequestBody String email) {
         try {
-            notificationService.subscribeToTopic(request);
+            notificationService.subscribeToTopic(email);
         } catch (Exception e) {
             LOGGER.error("Error subcribing new endpoint.", e);
             throw e;
