@@ -1,8 +1,5 @@
 package com.amazonaws.saas.eks.notificationservice.service;
 
-import com.amazonaws.saas.eks.notificationservice.domain.dto.request.NotificationRequest;
-import com.amazonaws.saas.eks.notificationservice.domain.dto.request.SubscribeToTopicRequest;
-
 public interface NotificationService {
 
     /**
@@ -13,16 +10,17 @@ public interface NotificationService {
     String createTopic(String topicName);
 
     /**
-     * Sends a notification.
-     * @param request {@link NotificationRequest} containing message details.
+     * Sends a notification to the given endpoint.
+     * @param message the notification content
+     * @param subject the notification subject
      */
-    void publishNotification(NotificationRequest request);
+    void publishNotification(String message, String subject);
 
     /**
      * Subscribes a specified endpoint to the topic.
-     * @param request {@link SubscribeToTopicRequest} containing subscription details, such as endpoint and protocol.
+     * @param email {@link String} containing subscription details, such as endpoint and protocol.
      */
-    void subscribeToTopic(SubscribeToTopicRequest request);
+    void subscribeToTopic(String email);
 
 
 }
