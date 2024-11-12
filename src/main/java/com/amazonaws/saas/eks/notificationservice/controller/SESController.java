@@ -34,7 +34,7 @@ public class SESController {
      * Heartbeat method to check if ses notification service is up and running
      *
      */
-    @RequestMapping("notifications/ses/health")
+    @RequestMapping("/health")
     public String health() {
         return "\"SES notification service is up!\"";
 }
